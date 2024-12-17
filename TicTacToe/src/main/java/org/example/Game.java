@@ -14,7 +14,7 @@ public class Game {
     }
 
     public void play(){
-
+        UserInterface userInterface = new UserInterface();
     }
 
 
