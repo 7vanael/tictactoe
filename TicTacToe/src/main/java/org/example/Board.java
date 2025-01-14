@@ -7,32 +7,47 @@ public class Board {
         board = new Player[3][3];
     }
 
+    public Player[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(Player[][] board) {
+        this.board = board;
+    }
+
     public void displayBoard() {
         System.out.println();
+        StringBuilder line = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == null) {
-                    System.out.print("- ");
+                    line.append(" ");
                 } else {
-                    System.out.print(board[i][j] + " ");
+                    line.append(board[i][j]);
+                }
+                if(j < 2){
+                    line.append(" | ");
                 }
             }
-            System.out.println();
+            System.out.println(line);
+            line.setLength(0);
+            if(i < 2){
+                System.out.println("--|---|---");
+            }
         }
-        System.out.println();
     }
 
 
     public boolean takeSquare(int row, int col, Player player) {
         // Check if move is valid
-        if (row < 0 || row > 2 || col < 0 || col > 4) {
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
             return false;
         }
-
+        //Check if space is occupied
         if (board[row][col] != null) {
             return false;
         }
-
+        //Claim the space for the player
         board[row][col] = player;
         return true;
     }
@@ -71,7 +86,6 @@ public class Board {
         if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
             return true;
         }
-
         return false;
     }
 }
