@@ -14,6 +14,9 @@ public class Board {
     public void setBoard(Player[][] board) {
         this.board = board;
     }
+    public Player getSquare(int[] location){
+        return this.board[location[0]][location[1]];
+    }
 
     public void displayBoard() {
         System.out.println();
