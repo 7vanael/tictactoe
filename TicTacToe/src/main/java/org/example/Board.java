@@ -4,28 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private Player[][] board;
 
-    public Board(){
-        board = new Player[3][3];
-    }
-
-    public Player[][] getBoard() {
-        return board;
-    }
-
-    public void setBoard(Player[][] board) {
-        this.board = board;
-    }
-    public Player getSquare(int row, int col){
-        return this.board[row][col];
-    }
-
-    public static List<int[]> getAvailableSpaces(Board boardImp){
+    public static List<int[]> getAvailableSpaces(char[][] boardImp){
         List<int[]> availSpaces = new ArrayList<int[]>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (boardImp.getSquare(i, j) == Player.X) {
+                if (boardImp[i][j] == ' ') {
                     availSpaces.add(new int[] {i, j});
                 }
             }
@@ -33,16 +17,12 @@ public class Board {
         return availSpaces;
     }
 
-    public void displayBoard() {
+    public static void displayBoard(char[][] board) {
         System.out.println();
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == Player.E) {
-                    line.append(" ");
-                } else {
-                    line.append(board[i][j]);
-                }
+                line.append(board[i][j]);
                 if(j < 2){
                     line.append(" | ");
                 }
@@ -56,25 +36,10 @@ public class Board {
     }
 
 
-    public boolean takeSquare(int row, int col, Player player) {
-        // Check if move is valid - shouldn't be possible with user input verification
-        if (row < 0 || row > 2 || col < 0 || col > 2) {
-            throw new RuntimeException("Invalid row or column sent to take a square");
-        }
-        //Check if space is occupied
-        if (board[row][col] != null) {
-            return false;
-        }
-        //Claim the space for the player
-        board[row][col] = player;
-        return true;
-    }
-
-
-    public boolean isBoardFull() {
+    public static boolean isBoardFull(char[][] board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == Player.E) {
+                if (board[i][j] == ' ') {
                     return false;
                 }
             }
@@ -82,17 +47,21 @@ public class Board {
         return true;
     }
 
-    public boolean checkWin(Player player) {
+    public static boolean checkWin(char player, char[][] board) {
         // Check rows
         for (int i = 0; i < 3; i++) {
-            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) {
+            if (board[i][0] == board[i][1] &&
+                    board[i][1] == board[i][2] &&
+                    board[i][2] == player) {
                 return true;
             }
         }
 
         // Check columns
         for (int j = 0; j < 3; j++) {
-            if (board[0][j] == player && board[1][j] == player && board[2][j] == player) {
+            if (board[0][j] == board[1][j] &&
+                    board[1][j] == board[2][j] &&
+                    board[2][j] == player) {
                 return true;
             }
         }

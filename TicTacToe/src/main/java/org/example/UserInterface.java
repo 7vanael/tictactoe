@@ -14,7 +14,6 @@ public class UserInterface {
         int userChoice = -1;
         boolean inputValid = false;
         while(!inputValid){
-
             String input = keyboard.nextLine();
             try{
                 int numberInput = Integer.parseInt(input);
@@ -32,15 +31,15 @@ public class UserInterface {
     }
 
     public boolean playAgain (Scanner keyboard){
-        System.out.println("Do you want to play again? (y/n");
-        return (keyboard.nextLine().toLowerCase().equals("y") || keyboard.nextLine().toLowerCase().contains("yes"));
+        System.out.println("Do you want to play again? (y/n)");
+        return (keyboard.nextLine().equalsIgnoreCase("y") || keyboard.nextLine().toLowerCase().contains("yes"));
     }
 
     public void announceDraw (){
         System.out.println("It's a draw, Good game!");
     }
 
-    public void announceWinner(Player player){
-        System.out.println(player + " wins!");
+    public void announceWinner(char player){
+        System.out.println("Player " + player + " wins!");
     }
 }
