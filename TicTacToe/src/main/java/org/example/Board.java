@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
     private Player[][] board;
 
@@ -14,8 +17,20 @@ public class Board {
     public void setBoard(Player[][] board) {
         this.board = board;
     }
-    public Player getSquare(int[] location){
-        return this.board[location[0]][location[1]];
+    public Player getSquare(int row, int col){
+        return this.board[row][col];
+    }
+
+    public static List<int[]> getAvailableSpaces(Board boardImp){
+        List<int[]> availSpaces = new ArrayList<int[]>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (boardImp.getSquare(i, j) == Player.X) {
+                    availSpaces.add(new int[] {i, j});
+                }
+            }
+        }
+        return availSpaces;
     }
 
     public void displayBoard() {
@@ -23,7 +38,7 @@ public class Board {
         StringBuilder line = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == null) {
+                if (board[i][j] == Player.E) {
                     line.append(" ");
                 } else {
                     line.append(board[i][j]);
@@ -42,9 +57,9 @@ public class Board {
 
 
     public boolean takeSquare(int row, int col, Player player) {
-        // Check if move is valid
+        // Check if move is valid - shouldn't be possible with user input verification
         if (row < 0 || row > 2 || col < 0 || col > 2) {
-            return false;
+            throw new RuntimeException("Invalid row or column sent to take a square");
         }
         //Check if space is occupied
         if (board[row][col] != null) {
@@ -59,7 +74,7 @@ public class Board {
     public boolean isBoardFull() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == null) {
+                if (board[i][j] == Player.E) {
                     return false;
                 }
             }
