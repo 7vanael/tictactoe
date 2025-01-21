@@ -32,7 +32,8 @@ public class UserInterface {
 
     public boolean playAgain (Scanner keyboard){
         System.out.println("Do you want to play again? (y/n)");
-        return (keyboard.nextLine().equalsIgnoreCase("y") || keyboard.nextLine().toLowerCase().contains("yes"));
+        String answer = keyboard.nextLine().toLowerCase();
+        return (answer.equals("y") || answer.contains("yes"));
     }
 
     public void announceDraw (){

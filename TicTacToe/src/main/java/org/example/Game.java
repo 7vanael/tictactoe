@@ -59,7 +59,6 @@ public class Game {
                     {' ', ' ', ' '},
                     {' ' , ' ', ' '}
             };
-            gameOver = false;
         } while (!sessionOver);
     }
 
@@ -79,7 +78,9 @@ public class Game {
                 board[row][column] = player;
                 validPlaySelected = true;
             }else {
-                System.out.println("You selected row: " + row + 1 + " column: " + column + 1);
+                row += 1;
+                column += 1;
+                System.out.println("You selected row: " + row + " column: " + column );
                 System.out.println("That space was taken. Try again");
             }
             //Continue soliciting user input until they enter a valid row & column
