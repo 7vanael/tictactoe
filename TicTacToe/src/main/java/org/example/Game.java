@@ -19,14 +19,18 @@ public class Game {
     public void play() {
         UserInterface userInterface = new UserInterface();
         userInterface.welcomePrint();
-        Board.displayBoard(board);
+
+        int userWins = 0;
+        int computerWins = 0;
+        int draws = 0;
         boolean sessionOver;
         char activePlayer = 'X';
         do {
             boolean gameOver = false;
-            do {
-                //Each player takes a turn, starting with the user
+            Board.displayBoard(board);
 
+            do {
+                //Each player takes a turn
                 if (activePlayer == 'X') {
                     System.out.println("Player turn");
                     userTurn(userInterface, activePlayer);
@@ -36,16 +40,21 @@ public class Game {
                 }
                 //Display the turn taken
                 Board.displayBoard(board);
-                //Check if game is over
+                //Check if game is over (exit loop if it is)
                 if (Board.checkWin(activePlayer, board)) {
-                    gameOver = true; //Could this be removed? Maybe, but don't want an infinite while true loop
+                    if(activePlayer == 'X'){
+                        userWins++;
+                    }else{
+                        computerWins++;
+                    }
                     userInterface.announceWinner(activePlayer);
                     break;
                 } else if (Board.isBoardFull(board)) {
-                    gameOver = true;
                     userInterface.announceDraw();
+                    draws++;
                     break;
                 }
+
                 //Switch active player
                 if (activePlayer == 'X') {
                     activePlayer = 'O';
@@ -53,12 +62,19 @@ public class Game {
                     activePlayer = 'X';
                 }
             } while (!gameOver);
+            System.out.printf("Your wins: %d, Computer wins: %d, Draws: %d%n", userWins, computerWins, draws);
             sessionOver = !userInterface.playAgain(scanner);
             this.board = new char[][]{
                     {' ', ' ', ' '},
                     {' ', ' ', ' '},
                     {' ' , ' ', ' '}
             };
+            //Switch active player
+            if (activePlayer == 'X') {
+                activePlayer = 'O';
+            } else {
+                activePlayer = 'X';
+            }
         } while (!sessionOver);
     }
 
@@ -85,5 +101,8 @@ public class Game {
             }
             //Continue soliciting user input until they enter a valid row & column
         } while (!validPlaySelected);
+    }
+    public void printStats(){
+        System.out.println();
     }
 }
